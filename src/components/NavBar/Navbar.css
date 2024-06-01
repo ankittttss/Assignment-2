@@ -1,0 +1,82 @@
+/* Navbar container */
+.navbar {
+  background-color: #333; /* Dark background color */
+  padding: 10px 20px; /* Padding for the navbar */
+  display: flex; /* Display items in a row */
+  justify-content: space-between; /* Space items evenly */
+  align-items: center; /* Center items vertically */
+}
+
+/* Search input */
+.navbar input[type="text"] {
+  padding: 8px 12px; /* Padding for the input */
+  border: none; /* Remove input border */
+  border-radius: 4px; /* Rounded corners */
+  margin-right: 10px; /* Margin between input and dropdown */
+}
+
+/* Sort dropdown */
+.navbar select {
+  padding: 8px 12px; /* Padding for the dropdown */
+  border: none; /* Remove dropdown border */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #555; /* Darker background color */
+  color: #fff; /* Light text color */
+}
+
+/* Cart button */
+.navbar button {
+  background-color: #555; /* Darker background color */
+  color: #fff; /* Light text color */
+  padding: 8px 12px; /* Padding for the button */
+  border: none; /* Remove button border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+/* Cart button hover effect */
+.navbar button:hover {
+  background-color: #777; /* Darker background color on hover */
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative; /* Position relative for absolute positioning */
+}
+
+/* Dropdown content */
+.dropdown-content {
+  position: absolute; /* Position absolute to position relative parent */
+  top: 100%; /* Position dropdown below button */
+  left: 0; /* Align dropdown with button */
+  background-color: wheat; /* Darker background color */
+  color: #fff; /* Light text color */
+  padding: 10px 0; /* Padding for dropdown items */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for dropdown */
+  z-index: 1; /* Ensure dropdown is above other elements */
+  display: none; /* Hide dropdown by default */
+}
+
+/* Dropdown content - show on hover */
+.dropdown:hover .dropdown-content {
+  display: block; /* Show dropdown on hover */
+}
+
+/* Dropdown items */
+.dropdown-item {
+  padding: 10px 20px; /* Padding for dropdown items */
+  text-decoration: none; /* Remove underline from links */
+  display: block; /* Display items as block elements */
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+/* Dropdown item hover effect */
+.dropdown-item:hover {
+  background-color: #777; /* Darker background color on hover */
+}
+
+.btn{
+  color: #fff;
+  background-color: white;
+}
