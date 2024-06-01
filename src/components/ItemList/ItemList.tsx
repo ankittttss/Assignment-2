@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import "./ItemList.css";
 import InfiniteScrollBar from "../InfiniteScrollBar/InfiniteScrollBar";
 import Item from "../Item/Item";
 import { Item as ItemType } from "../../types/Item";
+import ApiManager from "../Services/ApiManager"; // Import the ApiManager
 
 interface ItemListProps {
   searchQuery: string;
@@ -21,12 +21,7 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
   const fetchItems = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `https://dummyjson.com/products?limit=${limit}&skip=${
-          (page - 1) * limit
-        }&search?q=${searchQuery}&sort=${sortBy}`
-      );
-      const responseData = response.data;
+      const responseData = await ApiManager.fetchItems(searchQuery, page, limit, sortBy);
       let newItems: ItemType[] = responseData.products;
       if (sortBy === "desc") {
         newItems = newItems.sort(
