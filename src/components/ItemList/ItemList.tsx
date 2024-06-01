@@ -24,7 +24,7 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
       const response = await axios.get(
         `https://dummyjson.com/products?limit=${limit}&skip=${
           (page - 1) * limit
-        }&search=${searchQuery}&sort=${sortBy}`
+        }&search?q=${searchQuery}&sort=${sortBy}`
       );
       const responseData = response.data;
       let newItems: ItemType[] = responseData.products;
