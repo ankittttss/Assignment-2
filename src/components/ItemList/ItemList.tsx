@@ -22,19 +22,7 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
     setLoading(true);
     try {
       const responseData = await ApiManager.fetchItems(searchQuery, page, limit, sortBy);
-      let newItems: ItemType[] = responseData.products;
-      if (sortBy === "desc") {
-        newItems = newItems.sort(
-          (a, b) => parseFloat(b.price) - parseFloat(a.price)
-        ); // Sort by price descending
-      } else {
-        newItems = newItems.sort(
-          (a, b) => parseFloat(a.price) - parseFloat(b.price)
-        ); // Sort by price ascending
-      }
-      setItems((prevItems) =>
-        page === 1 ? newItems : [...prevItems, ...newItems]
-      );
+      setItems(responseData.products);
       const totalItems = responseData.total;
       setTotalPages(Math.ceil(totalItems / limit));
     } catch (error) {
@@ -50,7 +38,13 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
 
   useEffect(() => {
     setPage(1); // Reset page when search or sorting changes
+    setItems([]); // Clear items to avoid displaying old items when search query or sorting changes
   }, [searchQuery, sortBy]);
+
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
 
   const handleNextPage = () => {
     if (page < totalPages) {
