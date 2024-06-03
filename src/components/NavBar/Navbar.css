@@ -1,6 +1,6 @@
 /* Navbar container */
 .navbar {
-  background-color: #333; /* Dark background color */
+  background-color:black; /* Dark background color */
   padding: 10px 20px; /* Padding for the navbar */
   display: flex; /* Display items in a row */
   justify-content: space-between; /* Space items evenly */
@@ -77,6 +77,12 @@
 }
 
 .btn{
+  text-decoration: none;
   color: #fff;
   background-color: white;
+}
+
+.link {
+  text-decoration: none;
+  color: aliceblue;
 }

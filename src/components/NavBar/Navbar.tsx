@@ -40,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => {
         <option value="desc">Sort by Desc</option>
       </select>
       <button className='btn'>
-        <Link to="/cart">Cart</Link>
+        <Link to="/cart" className='link'>Cart</Link>
       </button>
     </nav>
   );
