@@ -40,7 +40,7 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
         );
         return [...prevItems, ...newItems];
       });
-      console.log(responseData.products)
+      console.log(responseData)
       const totalItems = responseData.total;
       setTotalPages(Math.ceil(totalItems / limit));
     } catch (error) {
@@ -68,7 +68,6 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
   const handleNextPage = () => {
     if (page < totalPages) {
       setPage((prevPage) => prevPage + 1);
-      // fetchItems()
     }
   };
 
