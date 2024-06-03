@@ -68,6 +68,7 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
   const handleNextPage = () => {
     if (page < totalPages) {
       setPage((prevPage) => prevPage + 1);
+      // fetchItems()
     }
   };
 
