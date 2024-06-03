@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 
 interface InfiniteScrollBarProps {
   onLoadMore: () => void;
@@ -14,31 +14,45 @@ const InfiniteScrollBar: React.FC<InfiniteScrollBarProps> = ({
   children,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const debounceTimeoutRef = useRef<number | null>(null);
+
+  const handleScroll = useCallback(() => {
+    const { current: scrollContainer } = scrollContainerRef;
+    if (!scrollContainer || loading || !hasMore) return;
+
+    const { scrollTop, clientHeight, scrollHeight } = scrollContainer;
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 100; // Adjust threshold as needed
+
+    if (isAtBottom) {
+      onLoadMore();
+    }
+  }, [onLoadMore, loading, hasMore]);
+
+  const debouncedHandleScroll = useCallback(() => {
+    if (debounceTimeoutRef.current !== null) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+
+    debounceTimeoutRef.current = window.setTimeout(() => {
+      handleScroll();
+    }, 200); // Adjust the debounce delay as needed (e.g., 200ms)
+  }, [handleScroll]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const { current: scrollContainer } = scrollContainerRef;
-      if (!scrollContainer || loading || !hasMore) return;
-
-      const { scrollTop, clientHeight, scrollHeight } = scrollContainer;
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 100; // Adjust threshold as needed
-
-      if (isAtBottom) {
-        onLoadMore();
-      }
-    };
-
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
-      scrollContainer.addEventListener('scroll', handleScroll);
+      scrollContainer.addEventListener('scroll', debouncedHandleScroll);
     }
 
     return () => {
       if (scrollContainer) {
-        scrollContainer.removeEventListener('scroll', handleScroll);
+        scrollContainer.removeEventListener('scroll', debouncedHandleScroll);
+      }
+      if (debounceTimeoutRef.current !== null) {
+        clearTimeout(debounceTimeoutRef.current);
       }
     };
-  }, [onLoadMore, loading, hasMore]);
+  }, [debouncedHandleScroll]);
 
   return (
     <div

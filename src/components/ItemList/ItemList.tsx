@@ -22,7 +22,14 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
     setLoading(true);
     try {
       const responseData = await ApiManager.fetchItems(searchQuery, page, limit, sortBy);
-      setItems(responseData.products);
+      const sortedItems = sortBy === 'asc' ? responseData.products.sort((a, b) => a.price - b.price) : responseData.products.sort((a, b) => b.price - a.price);
+      setItems((prevItems) => {
+        // Avoid duplicates by creating a new set of item IDs
+        const prevItemIds = new Set(prevItems.map(item => item.id));
+        const newItems = sortedItems.filter(item => !prevItemIds.has(item.id));
+        return [...prevItems, ...newItems];
+      });
+      console.log(responseData.products);
       const totalItems = responseData.total;
       setTotalPages(Math.ceil(totalItems / limit));
     } catch (error) {
@@ -33,18 +40,13 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
   }, [searchQuery, sortBy, page, limit]);
 
   useEffect(() => {
-    fetchItems();
-  }, [fetchItems]);
-
-  useEffect(() => {
+    setItems([]); // Clear items to avoid displaying old items when search query changes
     setPage(1); // Reset page when search or sorting changes
-    setItems([]); // Clear items to avoid displaying old items when search query or sorting changes
   }, [searchQuery, sortBy]);
 
-  // Scroll to top when page changes
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [page]);
+    fetchItems();
+  }, [fetchItems]);
 
   const handleNextPage = () => {
     if (page < totalPages) {
@@ -65,12 +67,9 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
   };
 
   const handleAddToCart = (item: ItemType) => {
-    // Check if item already exists in cart
     if (!cartItems.includes(item.id)) {
-      // Add item ID to cart
       const newCartItems = [...cartItems, item.id];
       setCartItems(newCartItems);
-      // Update localStorage with new cart item
       localStorage.setItem(item.id.toString(), JSON.stringify(item));
     }
   };
@@ -86,7 +85,7 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
           <div className="item-list">
             {items.map((item) => (
               <Item
-                key={item.id}
+                key={item.id} // Use item.id instead of Math.random()
                 {...item}
                 addToCart={() => handleAddToCart(item)}
                 isAddedToCart={cartItems.includes(item.id)}
