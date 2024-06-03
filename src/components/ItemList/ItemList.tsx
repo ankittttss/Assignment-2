@@ -17,19 +17,19 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
   const [loading, setLoading] = useState(false);
   const [limit, setLimit] = useState(10);
   const [cartItems, setCartItems] = useState<number[]>([]); // Array to store IDs of items in cart
+  const [newSearchQuery, setNewSearchQuery] = useState(searchQuery); // State for the new search query
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
     try {
-      const responseData = await ApiManager.fetchItems(searchQuery, page, limit, sortBy);
+      const responseData = await ApiManager.fetchItems(newSearchQuery, page, limit, sortBy); // Use newSearchQuery instead of searchQuery
       const sortedItems = sortBy === 'asc' ? responseData.products.sort((a, b) => a.price - b.price) : responseData.products.sort((a, b) => b.price - a.price);
       setItems((prevItems) => {
-        // Avoid duplicates by creating a new set of item IDs
+        // Avoid duplicates by filtering out items already in the list
         const prevItemIds = new Set(prevItems.map(item => item.id));
         const newItems = sortedItems.filter(item => !prevItemIds.has(item.id));
         return [...prevItems, ...newItems];
       });
-      console.log(responseData.products);
       const totalItems = responseData.total;
       setTotalPages(Math.ceil(totalItems / limit));
     } catch (error) {
@@ -37,16 +37,22 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, sortBy, page, limit]);
+  }, [newSearchQuery, sortBy, page, limit]);
 
   useEffect(() => {
     setItems([]); // Clear items to avoid displaying old items when search query changes
     setPage(1); // Reset page when search or sorting changes
+    setNewSearchQuery(searchQuery); // Update newSearchQuery when searchQuery changes
   }, [searchQuery, sortBy]);
 
   useEffect(() => {
     fetchItems();
   }, [fetchItems]);
+
+  useEffect(() => {
+    // Reset pagination when search query changes
+    setPage(1);
+  }, [newSearchQuery]);
 
   const handleNextPage = () => {
     if (page < totalPages) {
@@ -75,8 +81,17 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
     }
   };
 
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchQuery = event.target.value;
+    setPage(1); // Reset page when search query changes
+    setItems([]); // Clear items to avoid displaying old items when search query changes
+    // Set the new search query
+    setNewSearchQuery(newSearchQuery);
+  };
+
   return (
     <div className="item-list-container">
+      <input type="text" value={newSearchQuery} onChange={handleSearchInputChange} placeholder="Search..." />
       <InfiniteScrollBar
         onLoadMore={handleNextPage}
         hasMore={page < totalPages}
