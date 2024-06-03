@@ -32,3 +32,6 @@ const Item: React.FC<ItemProps> = ({ id, title, price, thumbnail, addToCart, isA
 };
 
 export default Item;
+
+
+//
