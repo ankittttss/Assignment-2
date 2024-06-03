@@ -45,7 +45,7 @@ body {
 .item {
   margin: 10px; /* Adjust margin for better spacing */
   padding: 20px;
-  width: 100%; /* Make items responsive */
+  width: calc(33.33% - 20px); /* Make items responsive */
   max-width: 250px; /* Limit max width for items */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -132,4 +132,17 @@ body {
   border-radius: 4px;
   border: 1px solid #ccc;
   height: fit-content;
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 768px) {
+  .item {
+    width: calc(50% - 20px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .item {
+    width: calc(100% - 20px);
+  }
 }
