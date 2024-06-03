@@ -1,15 +1,17 @@
 // src/components/NavBar/NavBar.tsx
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./Navbar.css";
 
-interface NavbarProps {  // Interface to define what kind of Props we would be pasing//
+interface NavbarProps {
+  // Interface to define what kind of Props we would be pasing//
   onSearch: (query: string) => void;
-  onSort: (sort: "asc" | "desc") => void; 
+  onSort: (sort: "asc" | "desc") => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => { // A functional Component FC -: Functional Component
-  const [searchInput, setSearchInput] = useState("");
+const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => {
+  // A functional Component FC -: Functional Component
+  const [searchInput, setSearchInput] = useState(""); // State for search Input//
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
   };
@@ -20,17 +22,17 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => { // A functiona
   };
 
   const handleSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onSort(event.target.value as "asc" | "desc");
+    onSort(event.target.value as "asc" | "desc"); 
   };
 
   return (
     <nav className="navbar">
       <form onSubmit={handleSearchSubmit}>
-        <input 
-          type="text" 
-          placeholder="Search..." 
+        <input
+          type="text"
+          placeholder="Search..."
           value={searchInput}
-          onChange={handleSearchChange} 
+          onChange={handleSearchChange}
         />
         <button type="submit">Search</button>
       </form>
@@ -38,10 +40,11 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => { // A functiona
         <option value="asc">Sort by Asc</option>
         <option value="desc">Sort by Desc</option>
       </select>
-      <button className='btn'>
-        <Link to="/cart" className='link'>Cart</Link>
+      <button className="btn">
+        <Link to="/cart" className="link">
+          Cart
+        </Link>
       </button>
-
     </nav>
   );
 };

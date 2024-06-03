@@ -1,6 +1,8 @@
 // src/components/Item/Item.tsx
-import React from 'react';
-import './Item.css';
+import React from "react";
+import "./Item.css";
+
+// This code defines a React Component Item Which Represents a Single Component/ Card
 
 interface ItemProps {
   id: number;
@@ -12,7 +14,15 @@ interface ItemProps {
   removeFromCart?: () => void; // Make removeFromCart optional
 }
 
-const Item: React.FC<ItemProps> = ({ id, title, price, thumbnail, addToCart, isAddedToCart, removeFromCart }) => {
+const Item: React.FC<ItemProps> = ({
+  id,
+  title,
+  price,
+  thumbnail,
+  addToCart,
+  isAddedToCart,
+  removeFromCart,
+}) => {
   return (
     <div className="item">
       <img src={thumbnail} alt={title} />
@@ -23,8 +33,12 @@ const Item: React.FC<ItemProps> = ({ id, title, price, thumbnail, addToCart, isA
           Remove from Cart
         </button>
       ) : (
-        <button className="btn add-button" onClick={addToCart} disabled={isAddedToCart}>
-          {isAddedToCart ? 'Added to Cart' : 'Add to Cart'}
+        <button
+          className="btn add-button"
+          onClick={addToCart}
+          disabled={isAddedToCart}
+        >
+          {isAddedToCart ? "Added to Cart" : "Add to Cart"}
         </button>
       )}
     </div>
@@ -33,5 +47,4 @@ const Item: React.FC<ItemProps> = ({ id, title, price, thumbnail, addToCart, isA
 
 export default Item;
 
-
-//
+// Overall this component represent a shopping card//
