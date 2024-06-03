@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Item as ItemType } from "../../types/Item";
 
+// Class to Mnage the Api Fetching. Code can be reused//
 class ApiManager {
   static async fetchItems(searchQuery: string, page: number, limit: number, sortBy: 'asc' | 'desc'): Promise<{ products: ItemType[], total: number }> {
     try {

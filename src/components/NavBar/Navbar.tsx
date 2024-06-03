@@ -3,14 +3,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
-interface NavbarProps {
+interface NavbarProps {  // Interface to define what kind of Props we would be pasing//
   onSearch: (query: string) => void;
-  onSort: (sort: "asc" | "desc") => void;
+  onSort: (sort: "asc" | "desc") => void; 
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => {
+const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => { // A functional Component FC -: Functional Component
   const [searchInput, setSearchInput] = useState("");
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
   };
