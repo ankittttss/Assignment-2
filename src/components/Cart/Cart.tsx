@@ -39,7 +39,7 @@ const Cart: React.FC = () => {
               {...item}
               addToCart={() => {}}
               isAddedToCart={true}
-              removeFromCart={() => handleRemoveFromCart(item.id)}
+              removeFromCart={() => handleRemoveFromCart(item.id)} // Correctly pass the removeFromCart prop
             />
           ))
         ) : (
