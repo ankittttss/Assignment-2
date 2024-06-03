@@ -42,6 +42,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => {
       <button className='btn'>
         <Link to="/cart" className='link'>Cart</Link>
       </button>
+
     </nav>
   );
 };

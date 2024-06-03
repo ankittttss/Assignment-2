@@ -35,7 +35,7 @@ const InfiniteScrollBar: React.FC<InfiniteScrollBarProps> = ({
 
     debounceTimeoutRef.current = window.setTimeout(() => {
       handleScroll();
-    }, 200); // Adjust the debounce delay as needed (e.g., 200ms)
+    }, 500); // Adjust the debounce delay as needed (e.g., 200ms)
   }, [handleScroll]);
 
   useEffect(() => {
