@@ -57,7 +57,7 @@ const InfiniteScrollBar: React.FC<InfiniteScrollBarProps> = ({
   return (
     <div
       ref={scrollContainerRef}
-      style={{ overflowY: 'auto', maxHeight: '100%', border: '1px solid #ccc', margin: '10px 0' }}
+      style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 50px)', border: '1px solid #ccc', margin: '10px 0' }} // Adjust maxHeight if you have a header/footer
     >
       {children}
     </div>

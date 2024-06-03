@@ -60,7 +60,8 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
     }
   };
 
-  const handleLimitChange = (newLimit: number) => {
+  const handleLimitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLimit = parseInt(event.target.value);
     setLimit(newLimit);
     setPage(1);
     setItems([]); // Clear items to avoid displaying old items when limit changes
@@ -75,55 +76,51 @@ const ItemList: React.FC<ItemListProps> = ({ searchQuery, sortBy }) => {
   };
 
   return (
-    <div>
-      <div className="item-list-container">
-        <InfiniteScrollBar
-          onLoadMore={handleNextPage}
-          hasMore={page < totalPages}
-          loading={loading}
-        >
-          <div className="item-list">
-            {items.map((item) => (
-              <Item
-                key={item.id} // Use item.id instead of Math.random()
-                {...item}
-                addToCart={() => handleAddToCart(item)}
-                isAddedToCart={cartItems.includes(item.id)}
-              />
-            ))}
-            {loading && <div>Loading...</div>}
-          </div>
-        </InfiniteScrollBar>
-      </div>
-      <div className="footer">
-        <div className="pagination">
-          <button onClick={handlePreviousPage} disabled={page === 1}>
-            Previous
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => setPage(i + 1)}
-              disabled={page === i + 1}
-            >
-              {i + 1}
-            </button>
+    <div className="item-list-container">
+      <InfiniteScrollBar
+        onLoadMore={handleNextPage}
+        hasMore={page < totalPages}
+        loading={loading}
+      >
+        <div className="item-list">
+          {items.map((item) => (
+            <Item
+              key={item.id} // Use item.id instead of Math.random()
+              {...item}
+              addToCart={() => handleAddToCart(item)}
+              isAddedToCart={cartItems.includes(item.id)}
+            />
           ))}
-          <button onClick={handleNextPage} disabled={page === totalPages}>
-            Next
-          </button>
+          {loading && <div>Loading...</div>}
         </div>
-        <div className="limit">
-          <span>Limit:</span>
-          <button onClick={() => handleLimitChange(10)} disabled={limit === 10}>
-            10
-          </button>
-          <button onClick={() => handleLimitChange(20)} disabled={limit === 20}>
-            20
-          </button>
-          <button onClick={() => handleLimitChange(30)} disabled={limit === 30}>
-            30
-          </button>
+      </InfiniteScrollBar>
+      <div className="footer">
+        <div className="pagination-limit-container">
+          <div className="pagination">
+            <button onClick={handlePreviousPage} disabled={page === 1}>
+              Previous
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => setPage(i + 1)}
+                disabled={page === i + 1}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button onClick={handleNextPage} disabled={page === totalPages}>
+              Next
+            </button>
+          </div>
+          <div className="limit">
+            <label htmlFor="limit-select">Limit:</label>
+            <select id="limit-select" value={limit} onChange={handleLimitChange}>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={30}>30</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
