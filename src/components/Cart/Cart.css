@@ -82,4 +82,10 @@
       align-items: center;
     }
   }
-  
+
+.button{
+   background-color: bisque;
+   border: 2px solid black;
+   margin-left: 60px;
+   width: 200px;
+}

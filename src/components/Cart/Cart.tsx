@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Item from '../Item/Item';
 import { Item as ItemType } from '../../types/Item';
 import './Cart.css';
+import { Link } from 'react-router-dom';
 
 const Cart: React.FC = () => {
   const [cartItems, setCartItems] = useState<ItemType[]>([]);
@@ -23,6 +24,8 @@ const Cart: React.FC = () => {
 
   const handleRemoveFromCart = (itemId: number) => {
     // Remove item from localStorage
+    // / write another class which have all functionality to get & set data in local storage
+    
     localStorage.removeItem(itemId.toString());
     // Update the cart items state
     setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
@@ -30,7 +33,6 @@ const Cart: React.FC = () => {
 
   return (
     <div className="cart-container">
-      <h1>Your Cart</h1>
       <div className="cart-items">
         {cartItems.length > 0 ? (
           cartItems.map(item => (
@@ -43,7 +45,14 @@ const Cart: React.FC = () => {
             />
           ))
         ) : (
-          <p>Your cart is empty.</p>
+          <div>
+          <h1> Your Cart is Empty</h1>
+            <Link to="/">
+            <button className='button'>
+              Return to home Page
+            </button>
+          </Link>
+          </div>
         )}
       </div>
     </div>

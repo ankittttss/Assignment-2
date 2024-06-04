@@ -27,7 +27,7 @@ const Item: React.FC<ItemProps> = ({
     <div className="item">
       <img src={thumbnail} alt={title} />
       <h2>{title}</h2>
-      <p>{price}</p>
+      <p>Price -: {price}</p>
       {removeFromCart ? (
         <button className="btn remove-button" onClick={removeFromCart}>
           Remove from Cart

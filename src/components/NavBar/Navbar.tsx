@@ -6,7 +6,7 @@ import "./Navbar.css";
 interface NavbarProps {
   // Interface to define what kind of Props we would be pasing//
   onSearch: (query: string) => void;
-  onSort: (sort: "asc" | "desc") => void;
+  onSort: (sort: "asc" | "desc"|"normal") => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => {
@@ -22,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => {
   };
 
   const handleSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onSort(event.target.value as "asc" | "desc"); 
+    onSort(event.target.value as "asc" | "desc" |"normal"); 
   };
 
   return (
@@ -37,6 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onSort }) => {
         <button type="submit">Search</button>
       </form>
       <select onChange={handleSort}>
+      <option value = "normal">normal</option>
         <option value="asc">Sort by Asc</option>
         <option value="desc">Sort by Desc</option>
       </select>
